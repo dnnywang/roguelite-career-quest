@@ -10,6 +10,15 @@ const GameTitle: React.FC<GameTitleProps> = ({ onStartGame }) => {
   return (
     <div className="text-center">
       <h1 className="text-5xl font-bold mb-6 text-game-blue">LinkedIn Roguelite</h1>
+      
+      <div className="flex justify-center mb-6">
+        <img 
+          src="/sprites/game_spirte.png" 
+          alt="Game Character" 
+          className="w-32 h-32 pixel-art animate-pixel-bounce"
+        />
+      </div>
+      
       <p className="text-xl mb-8 max-w-lg mx-auto text-game-gray">
         Navigate the professional world, answer tech questions, and build your career in this unique roguelite game!
       </p>
