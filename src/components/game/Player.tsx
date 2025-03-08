@@ -39,25 +39,35 @@ const Player: React.FC = () => {
   }, [movePlayer]);
 
   return (
-    <div 
-      className="char pixel-art"
-      style={{ 
-        left: `${playerPosition.x}px`, 
-        top: `${playerPosition.y}px`,
-        zIndex: 10,
-        width: '32px',
-        height: '32px',
-        backgroundImage: 'url(https://cdn.discordapp.com/attachments/1070225571541434431/1347797240474894377/game_spirte.png?ex=67cd217e&is=67cbcffe&hm=928f94a7b252bb4f3b3d3eb1e003e94644e0f38f74774aba53aa3043444039fa&)',
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        imageRendering: 'pixelated',
-        transform: direction === 'left' ? 'scaleX(-1)' : 'scaleX(1)',
-        transition: 'transform 0.1s ease-in-out'
-      }}
-    >
-      <div className="text-[8px] text-white font-bold text-center pt-1 bg-black bg-opacity-50">
+    <div className="relative">
+      {/* Player name label positioned above the sprite */}
+      <div 
+        className="absolute left-1/2 transform -translate-x-1/2 -top-5 text-[8px] text-white font-bold text-center px-1 py-0.5 bg-black bg-opacity-50 rounded-sm"
+        style={{
+          width: '20px',
+          zIndex: 11
+        }}
+      >
         YOU
       </div>
+      
+      {/* Player sprite */}
+      <div 
+        className="char pixel-art"
+        style={{ 
+          left: `${playerPosition.x}px`, 
+          top: `${playerPosition.y}px`,
+          zIndex: 10,
+          width: '32px',
+          height: '32px',
+          backgroundImage: 'url(https://cdn.discordapp.com/attachments/1070225571541434431/1347797240474894377/game_spirte.png?ex=67cd217e&is=67cbcffe&hm=928f94a7b252bb4f3b3d3eb1e003e94644e0f38f74774aba53aa3043444039fa&)',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          imageRendering: 'pixelated',
+          transform: direction === 'left' ? 'scaleX(-1)' : 'scaleX(1)',
+          transition: 'transform 0.1s ease-in-out'
+        }}
+      />
     </div>
   );
 };
