@@ -25,21 +25,33 @@ const NPC: React.FC<NPCProps> = ({ npc }) => {
     }
   };
 
+  // Determine sprite and hitbox size based on NPC type
+  const getSpriteSize = () => {
+    return npc.type === 'Recruiter' ? '48px' : '32px';
+  };
+
   return (
     <div
       className="npc pixel-art animate-pixel-bounce"
       style={{
         left: `${npc.position.x}px`,
         top: `${npc.position.y}px`,
-        width: '32px',
-        height: '32px',
+        width: getSpriteSize(),
+        height: getSpriteSize(),
         backgroundImage: `url(${getSprite()})`,
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         imageRendering: 'pixelated'
       }}
     >
-      <div className="text-[8px] text-white font-bold text-center pt-1 bg-black bg-opacity-50">
+      <div 
+        className="text-[8px] text-white font-bold text-center bg-black bg-opacity-50"
+        style={{
+          position: 'absolute',
+          width: '100%',
+          top: npc.type === 'Recruiter' ? '-30px' : '1px'
+        }}
+      >
         {npc.type}
       </div>
     </div>

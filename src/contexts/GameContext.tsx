@@ -227,13 +227,16 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const checkNpcCollision = (playerX: number, playerY: number) => {
     npcs.forEach(npc => {
       if (!npc.defeated) {
+        // Determine hitbox size based on NPC type
+        const hitboxSize = npc.type === 'Recruiter' ? 48 : 32;
+        
         const distance = Math.sqrt(
           Math.pow(playerX - npc.position.x, 2) + 
           Math.pow(playerY - npc.position.y, 2)
         );
         
         // If player is close enough to NPC, start combat
-        if (distance < 32) {
+        if (distance < hitboxSize) {
           startCombat(npc);
         }
       }
