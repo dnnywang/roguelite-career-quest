@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,19 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				game: {
+					'blue': '#0077B5',
+					'light-blue': '#00A0DC',
+					'dark-blue': '#005E93',
+					'green': '#7FC15E',
+					'red': '#E44D42',
+					'yellow': '#F5C953',
+					'gray': '#8E9196',
+					'dark-gray': '#313335',
+					'light-gray': '#F3F6F8',
+					'black': '#000000',
+					'white': '#FFFFFF'
 				}
 			},
 			borderRadius: {
@@ -84,11 +98,26 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'pixel-bounce': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-4px)' }
+				},
+				'stat-fill': {
+					'0%': { width: '0%' },
+					'100%': { width: 'var(--stat-value)' }
+				},
+				'fade-in': {
+					'0%': { opacity: '0' },
+					'100%': { opacity: '1' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'pixel-bounce': 'pixel-bounce 0.6s ease-in-out infinite',
+				'stat-fill': 'stat-fill 1s ease-out forwards',
+				'fade-in': 'fade-in 0.5s ease-out'
 			}
 		}
 	},
