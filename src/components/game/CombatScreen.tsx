@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useGame } from '@/contexts/GameContext';
 import { Button } from '@/components/ui/button';
@@ -11,6 +12,7 @@ const CombatScreen: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [question, setQuestion] = useState('Loading question...');
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   
   // Get color based on NPC type
   const getNpcColor = () => {
@@ -46,6 +48,8 @@ const CombatScreen: React.FC = () => {
       if (!currentNpc) return;
       
       setIsLoading(true);
+      setError(null);
+      
       try {
         // Generate a timestamp to ensure a fresh question each time
         const timestamp = new Date().getTime();
@@ -59,15 +63,28 @@ const CombatScreen: React.FC = () => {
         });
         
         if (error) {
-          console.error('Error fetching question:', error);
-          setQuestion(`Based on your ${experience} experience points: What is your approach to learning new technologies?`);
+          console.error('Error from Supabase function:', error);
+          setError(`Error: ${error.message}`);
+          
+          if (data && data.fallbackQuestion) {
+            setQuestion(data.fallbackQuestion);
+            toast.error("Using fallback question. The AI service is currently unavailable.");
+          } else {
+            setQuestion(`Based on your ${experience} experience points: What is your approach to learning new technologies?`);
+          }
         } else if (data && data.question) {
           setQuestion(data.question);
         } else if (data && data.fallbackQuestion) {
           setQuestion(data.fallbackQuestion);
+          setError("The AI service returned an unexpected response format.");
+          toast.error("Using fallback question. The AI service is currently unavailable.");
+        } else {
+          setError("Received empty response from the server.");
+          setQuestion(`Based on your ${experience} experience points: What is your approach to learning new technologies?`);
         }
       } catch (err) {
         console.error('Failed to fetch question:', err);
+        setError(`Error: ${err instanceof Error ? err.message : 'Unknown error'}`);
         setQuestion(`Based on your ${experience} experience points: What is your approach to learning new technologies?`);
       } finally {
         setIsLoading(false);
@@ -134,6 +151,11 @@ const CombatScreen: React.FC = () => {
             <div className="animate-pulse">Loading question...</div>
           ) : (
             <p>{question}</p>
+          )}
+          {error && !isLoading && (
+            <p className="text-red-500 text-sm mt-2">
+              Note: Using fallback question due to API issue.
+            </p>
           )}
         </div>
         

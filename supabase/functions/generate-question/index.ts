@@ -1,4 +1,3 @@
-
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 
@@ -39,7 +38,13 @@ serve(async (req) => {
     const randomSeed = Math.floor(Math.random() * 10000);
     prompt += ` (randomSeed: ${randomSeed})`;
     
+    console.log("Gemini API Key exists:", !!geminiApiKey);
     console.log("Sending prompt to Gemini:", prompt);
+    
+    // Check if API key is available
+    if (!geminiApiKey) {
+      throw new Error("Gemini API key is not configured");
+    }
     
     // Call the Gemini API
     const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' + geminiApiKey, {
@@ -64,8 +69,18 @@ serve(async (req) => {
       })
     });
     
+    // Log HTTP status for debugging
+    console.log("Gemini API HTTP Status:", response.status);
+    
+    // Handle non-200 responses
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Gemini API error:", errorText);
+      throw new Error(`Gemini API returned ${response.status}: ${errorText}`);
+    }
+    
     const data = await response.json();
-    console.log("Gemini API response:", JSON.stringify(data));
+    console.log("Gemini API response structure:", Object.keys(data));
     
     let generatedQuestion = "";
     
@@ -79,7 +94,10 @@ serve(async (req) => {
       if (generatedQuestion.length > 200) {
         generatedQuestion = generatedQuestion.substring(0, 200) + "...";
       }
+      
+      console.log("Successfully generated question:", generatedQuestion);
     } else {
+      console.error("Unexpected Gemini API response format:", JSON.stringify(data));
       throw new Error("Unexpected response format from Gemini API");
     }
     
@@ -88,9 +106,30 @@ serve(async (req) => {
     });
   } catch (error) {
     console.error('Error in generate-question function:', error);
+    
+    // Provide a different fallback question based on NPC type
+    let fallbackQuestion = "What is your approach to learning new technologies?";
+    
+    try {
+      const { npcType } = await req.json();
+      switch(npcType) {
+        case "Recruiter":
+          fallbackQuestion = "Can you describe your experience with building scalable web applications?";
+          break;
+        case "Intern":
+          fallbackQuestion = "What's your favorite JavaScript framework and why?";
+          break;
+        case "Student":
+          fallbackQuestion = "How would you explain Big O notation to a junior developer?";
+          break;
+      }
+    } catch (e) {
+      // Keep the default fallback if we can't parse the request
+    }
+    
     return new Response(JSON.stringify({ 
       error: error.message,
-      fallbackQuestion: "What is your approach to learning new technologies?" 
+      fallbackQuestion: fallbackQuestion 
     }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
