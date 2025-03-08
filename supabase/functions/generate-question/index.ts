@@ -23,13 +23,13 @@ serve(async (req) => {
     
     switch(npcType) {
       case "Recruiter":
-        prompt = `You are a tech recruiter interviewing a candidate with ${experience} experience points. Generate a challenging but appropriate technical interview question about software development, APIs, or system design. The question should be 1-2 sentences only.`;
+        prompt = `You are a tech recruiter interviewing a candidate with ${experience} experience points. Generate a challenging but appropriate technical interview question about software development, algorithms, system design, or leadership. Focus on questions that assess problem-solving skills and expertise. The question should be 1-2 sentences only.`;
         break;
       case "Intern":
-        prompt = `You are an intern at a tech company talking to someone with ${experience} experience points. Ask them a question about React, JavaScript fundamentals, or modern web development that you're curious about. The question should be 1-2 sentences only.`;
+        prompt = `You are an intern at a tech company talking to someone with ${experience} experience points. Ask them a beginner-friendly question about React, JavaScript, CSS, or modern web development tools that you're genuinely curious about as someone new to the industry. The question should be casual and reflect your junior status. The question should be 1-2 sentences only.`;
         break;
       case "Student":
-        prompt = `You are a computer science student talking to someone with ${experience} experience points. Ask them a technical question about algorithms, data structures, or computer science theory that you're struggling with. The question should be 1-2 sentences only.`;
+        prompt = `You are a computer science student talking to someone with ${experience} experience points. Ask them a theoretical question about algorithms, data structures, computer science principles, or academic concepts that you're struggling with in your coursework. Make it sound like you're looking for guidance from someone more experienced. The question should be 1-2 sentences only.`;
         break;
       default:
         prompt = `Generate a general technical interview question for someone with ${experience} experience points. The question should be 1-2 sentences only.`;

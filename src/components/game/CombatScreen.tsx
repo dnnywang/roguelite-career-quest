@@ -27,6 +27,20 @@ const CombatScreen: React.FC = () => {
     }
   };
   
+  // Get NPC description based on type
+  const getNpcDescription = () => {
+    switch (currentNpc?.type) {
+      case 'Recruiter':
+        return 'This tech recruiter is evaluating your technical expertise and problem-solving skills.';
+      case 'Intern':
+        return 'This junior developer is eager to learn from your experience in web development.';
+      case 'Student':
+        return 'This computer science student is seeking guidance on theoretical concepts.';
+      default:
+        return 'A tech professional wants to test your knowledge.';
+    }
+  };
+  
   // Fetch question from Gemini API when component mounts
   useEffect(() => {
     const fetchQuestion = async () => {
@@ -107,6 +121,7 @@ const CombatScreen: React.FC = () => {
           <div>
             <h2 className="text-xl font-bold">{currentNpc?.type} Challenge</h2>
             <p className="text-game-gray">Charisma threshold: {charisma}/10</p>
+            <p className="text-sm text-gray-600 mt-1">{getNpcDescription()}</p>
           </div>
         </div>
         
