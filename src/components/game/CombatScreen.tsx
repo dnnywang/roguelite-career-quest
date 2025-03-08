@@ -11,6 +11,20 @@ const CombatScreen: React.FC = () => {
   const [answer, setAnswer] = useState('');
   const [submitted, setSubmitted] = useState(false);
   
+  // Get color based on NPC type
+  const getNpcColor = () => {
+    switch (currentNpc?.type) {
+      case 'Recruiter':
+        return 'bg-blue-500';
+      case 'Intern':
+        return 'bg-green-500';
+      case 'Student':
+        return 'bg-yellow-500';
+      default:
+        return 'bg-gray-500';
+    }
+  };
+  
   // Mock questions based on NPC type
   const getQuestion = () => {
     switch (currentNpc?.type) {
@@ -66,12 +80,8 @@ const CombatScreen: React.FC = () => {
     <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 animate-fade-in">
       <div className="bg-white p-6 rounded-lg max-w-2xl w-full">
         <div className="mb-6 flex items-center">
-          <div className="w-16 h-16 mr-4">
-            <img 
-              src={`/sprites/${currentNpc?.type.toLowerCase()}.png`} 
-              alt={currentNpc?.type} 
-              className="w-full h-full pixel-art"
-            />
+          <div className={`w-16 h-16 mr-4 ${getNpcColor()} rounded-md flex items-center justify-center`}>
+            <span className="text-white font-bold">{currentNpc?.type}</span>
           </div>
           <div>
             <h2 className="text-xl font-bold">{currentNpc?.type} Challenge</h2>
