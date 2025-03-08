@@ -1,15 +1,17 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useGame } from '@/contexts/GameContext';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
+import { supabase } from "@/integrations/supabase/client";
 
 const CombatScreen: React.FC = () => {
   const { gameState, endCombat } = useGame();
   const { currentNpc, charisma, experience } = gameState;
   const [answer, setAnswer] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [question, setQuestion] = useState('Loading question...');
+  const [isLoading, setIsLoading] = useState(true);
   
   // Get color based on NPC type
   const getNpcColor = () => {
@@ -25,19 +27,38 @@ const CombatScreen: React.FC = () => {
     }
   };
   
-  // Mock questions based on NPC type
-  const getQuestion = () => {
-    switch (currentNpc?.type) {
-      case 'Recruiter':
-        return `Based on your ${experience} experience points: Explain the difference between REST and GraphQL APIs.`;
-      case 'Intern':
-        return `Based on your ${experience} experience points: What is the purpose of React's useEffect hook?`;
-      case 'Student':
-        return `Based on your ${experience} experience points: Explain the concept of Big O notation in algorithm complexity.`;
-      default:
-        return "What is your approach to learning new technologies?";
-    }
-  };
+  // Fetch question from Gemini API when component mounts
+  useEffect(() => {
+    const fetchQuestion = async () => {
+      if (!currentNpc) return;
+      
+      setIsLoading(true);
+      try {
+        const { data, error } = await supabase.functions.invoke('generate-question', {
+          body: { 
+            npcType: currentNpc.type,
+            experience: experience
+          }
+        });
+        
+        if (error) {
+          console.error('Error fetching question:', error);
+          setQuestion(`Based on your ${experience} experience points: What is your approach to learning new technologies?`);
+        } else if (data && data.question) {
+          setQuestion(data.question);
+        } else if (data && data.fallbackQuestion) {
+          setQuestion(data.fallbackQuestion);
+        }
+      } catch (err) {
+        console.error('Failed to fetch question:', err);
+        setQuestion(`Based on your ${experience} experience points: What is your approach to learning new technologies?`);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchQuestion();
+  }, [currentNpc, experience]);
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,7 +112,11 @@ const CombatScreen: React.FC = () => {
         
         <div className="bg-game-light-gray p-4 rounded-md mb-6">
           <p className="mb-2 font-semibold">Question:</p>
-          <p>{getQuestion()}</p>
+          {isLoading ? (
+            <div className="animate-pulse">Loading question...</div>
+          ) : (
+            <p>{question}</p>
+          )}
         </div>
         
         <form onSubmit={handleSubmit}>
@@ -103,15 +128,19 @@ const CombatScreen: React.FC = () => {
               id="answer"
               value={answer}
               onChange={(e) => setAnswer(e.target.value)}
-              disabled={submitted}
+              disabled={submitted || isLoading}
               className="w-full p-2 border border-gray-300 rounded-md h-32"
-              placeholder="Type your answer here..."
+              placeholder={isLoading ? "Waiting for question..." : "Type your answer here..."}
               required
             />
           </div>
           
           <div className="flex justify-end">
-            <Button type="submit" disabled={submitted} className="bg-game-blue hover:bg-game-dark-blue">
+            <Button 
+              type="submit" 
+              disabled={submitted || isLoading} 
+              className="bg-game-blue hover:bg-game-dark-blue"
+            >
               {submitted ? "Evaluating..." : "Submit Answer"}
             </Button>
           </div>
