@@ -47,7 +47,7 @@ const Player: React.FC = () => {
         zIndex: 10,
         width: '32px',
         height: '32px',
-        backgroundImage: 'url(/sprites/player.png)',
+        backgroundImage: 'url(https://cdn.discordapp.com/attachments/1070225571541434431/1347797240474894377/game_spirte.png?ex=67cd217e&is=67cbcffe&hm=928f94a7b252bb4f3b3d3eb1e003e94644e0f38f74774aba53aa3043444039fa&)',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         imageRendering: 'pixelated',
