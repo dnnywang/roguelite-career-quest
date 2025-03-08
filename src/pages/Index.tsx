@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { GameProvider } from '@/contexts/GameContext';
 import GameWorld from '@/components/game/GameWorld';
@@ -12,13 +11,13 @@ const Index: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-game-light-gray to-gray-200 py-8">
-      <div className="container mx-auto px-4">
+    <div className="min-h-screen max-w-screen overflow-x-hidden bg-gradient-to-b from-game-light-gray to-gray-200 py-8">
+      <div className="container mx-auto px-4 overflow-hidden">
         {!gameStarted ? (
           <GameTitle onStartGame={handleStartGame} />
         ) : (
           <GameProvider>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center overflow-hidden">
               <h1 className="text-3xl font-bold mb-6 text-game-blue drop-shadow-lg"
                   style={{ 
                     textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)', 
@@ -29,7 +28,9 @@ const Index: React.FC = () => {
               <p className="text-lg mb-8 max-w-lg text-center text-game-gray">
                 Welcome to the Networking Event! Talk to the NPCs to build your stats.
               </p>
-              <GameWorld />
+              <div className="w-full flex justify-center">
+                <GameWorld />
+              </div>
             </div>
           </GameProvider>
         )}

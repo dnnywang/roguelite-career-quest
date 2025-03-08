@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useGame } from '@/contexts/GameContext';
 import Player from './Player';
@@ -10,7 +9,39 @@ import GameOverScreen from './GameOverScreen';
 
 const GameWorld: React.FC = () => {
   const { gameState, npcs, movePlayer } = useGame();
-  const { inCombat, showCardSelection, gameOver } = gameState;
+  const { inCombat, showCardSelection, gameOver, level } = gameState;
+
+  // Get background class based on level
+  const getBackgroundClass = () => {
+    switch (level) {
+      case 1:
+        return 'networking-event';
+      case 2:
+        return 'office';
+      case 3:
+        return 'sf-street';
+      case 4:
+        return 'sewer';
+      default:
+        return 'networking-event';
+    }
+  };
+
+  // Get level name based on level
+  const getLevelName = () => {
+    switch (level) {
+      case 1:
+        return 'Networking Event';
+      case 2:
+        return 'Office';
+      case 3:
+        return 'San Francisco Street';
+      case 4:
+        return 'Sewer';
+      default:
+        return 'Networking Event';
+    }
+  };
 
   // Set up key press listener for movement
   useEffect(() => {
@@ -42,12 +73,17 @@ const GameWorld: React.FC = () => {
   }, [movePlayer]);
 
   return (
-    <div className="game-container">
-      <div className="game-world networking-event relative">
+    <div className="game-container flex items-center justify-center overflow-hidden">
+      <div className={`game-world ${getBackgroundClass()} absolute inset-0 w-full h-full`}>
+        {/* Level indicator */}
+        <div className="absolute top-6 left-6 bg-black bg-opacity-70 text-white px-4 py-2 rounded-md text-lg font-medium z-20">
+          Level {level}: {getLevelName()}
+        </div>
+        
         {/* Grid lines for visual reference */}
-        <div className="absolute inset-0 grid grid-cols-25 grid-rows-18 gap-0 opacity-10 pointer-events-none">
-          {Array.from({ length: 25 * 18 }).map((_, i) => (
-            <div key={i} className="border border-black w-32 h-32"></div>
+        <div className="absolute inset-0 grid grid-cols-30 grid-rows-20 gap-0 opacity-5 pointer-events-none">
+          {Array.from({ length: 30 * 20 }).map((_, i) => (
+            <div key={i} className="border border-black"></div>
           ))}
         </div>
         

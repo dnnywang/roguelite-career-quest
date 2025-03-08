@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 
@@ -19,7 +18,7 @@ const GameTitle: React.FC<GameTitleProps> = ({ onStartGame }) => {
       
       <div className="flex justify-center mb-6">
         <img 
-          src="/sprites/game_spirte.png" 
+          src="https://cdn.discordapp.com/attachments/1338984226766458932/1347817294041976872/1.png?ex=67cd342c&is=67cbe2ac&hm=43f5d1cab692d85e462d4079be56e992671da03106328a584ebe5e3fecb9f8df&" 
           alt="Game Character" 
           className="w-32 h-32 pixel-art animate-pixel-bounce"
         />
