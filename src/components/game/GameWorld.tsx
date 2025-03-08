@@ -43,7 +43,7 @@ const GameWorld: React.FC = () => {
 
   return (
     <div className="game-container">
-      <div className="game-world bg-slate-200 relative">
+      <div className="game-world networking-event relative">
         {/* Grid lines for visual reference */}
         <div className="absolute inset-0 grid grid-cols-25 grid-rows-18 gap-0 opacity-10 pointer-events-none">
           {Array.from({ length: 25 * 18 }).map((_, i) => (

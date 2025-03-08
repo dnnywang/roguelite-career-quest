@@ -176,7 +176,8 @@
   }
   
   .networking-event {
-    background-image: url('/backgrounds/networking-event.png');
+    background-image: url('https://cdn.discordapp.com/attachments/1070225571541434431/1347804115819954238/2UffU3iPrOJeCV38-generated_image.png?ex=67cd27e6&is=67cbd666&hm=3f868a703d580e15425bdce50f3dd68eaafb84cc114824054e5283c50a552643&');
     background-size: cover;
+    background-position: center;
   }
 }
