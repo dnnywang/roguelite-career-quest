@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useGame } from '@/contexts/GameContext';
 import { Button } from '@/components/ui/button';
@@ -41,17 +40,21 @@ const CombatScreen: React.FC = () => {
     }
   };
   
-  // Fetch question from Gemini API when component mounts
+  // Fetch question from Gemini API when component mounts or when NPC changes
   useEffect(() => {
     const fetchQuestion = async () => {
       if (!currentNpc) return;
       
       setIsLoading(true);
       try {
+        // Generate a timestamp to ensure a fresh question each time
+        const timestamp = new Date().getTime();
+        
         const { data, error } = await supabase.functions.invoke('generate-question', {
           body: { 
             npcType: currentNpc.type,
-            experience: experience
+            experience: experience,
+            timestamp: timestamp  // Send timestamp to ensure unique requests
           }
         });
         

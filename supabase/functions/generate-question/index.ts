@@ -35,6 +35,10 @@ serve(async (req) => {
         prompt = `Generate a general technical interview question for someone with ${experience} experience points. The question should be 1-2 sentences only.`;
     }
     
+    // Add a random seed to ensure we get different questions each time
+    const randomSeed = Math.floor(Math.random() * 10000);
+    prompt += ` (randomSeed: ${randomSeed})`;
+    
     console.log("Sending prompt to Gemini:", prompt);
     
     // Call the Gemini API
