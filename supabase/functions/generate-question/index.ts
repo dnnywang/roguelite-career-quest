@@ -1,3 +1,4 @@
+
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 
@@ -46,8 +47,8 @@ serve(async (req) => {
       throw new Error("Gemini API key is not configured");
     }
     
-    // Call the Gemini API
-    const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' + geminiApiKey, {
+    // Call the Gemini API using v1 instead of v1beta and the gemini-2.0-flash model
+    const response = await fetch('https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=' + geminiApiKey, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -84,7 +85,7 @@ serve(async (req) => {
     
     let generatedQuestion = "";
     
-    // Extract the generated text from the response
+    // Extract the generated text from the response based on v1 API structure
     if (data.candidates && data.candidates[0] && data.candidates[0].content && 
         data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
       generatedQuestion = data.candidates[0].content.parts[0].text;
