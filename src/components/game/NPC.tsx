@@ -11,29 +11,35 @@ const NPC: React.FC<NPCProps> = ({ npc }) => {
     return null;
   }
 
-  // Get color based on NPC type
-  const getColor = () => {
+  // Get sprite image based on NPC type
+  const getSprite = () => {
     switch (npc.type) {
       case 'Recruiter':
-        return 'bg-blue-500';
+        return '/sprites/recruiter.png';
       case 'Intern':
-        return 'bg-green-500';
+        return '/sprites/intern.png';
       case 'Student':
-        return 'bg-yellow-500';
+        return '/sprites/student.png';
       default:
-        return 'bg-gray-500';
+        return '/sprites/recruiter.png';
     }
   };
 
   return (
     <div
-      className={`npc pixel-art animate-pixel-bounce ${getColor()}`}
+      className="npc pixel-art animate-pixel-bounce"
       style={{
         left: `${npc.position.x}px`,
         top: `${npc.position.y}px`,
+        width: '32px',
+        height: '32px',
+        backgroundImage: `url(${getSprite()})`,
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        imageRendering: 'pixelated'
       }}
     >
-      <div className="text-[8px] text-white font-bold text-center pt-1">
+      <div className="text-[8px] text-white font-bold text-center pt-1 bg-black bg-opacity-50">
         {npc.type}
       </div>
     </div>

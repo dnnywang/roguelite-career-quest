@@ -8,14 +8,20 @@ const Player: React.FC = () => {
 
   return (
     <div 
-      className="char pixel-art animate-pixel-bounce bg-red-500"
+      className="char pixel-art animate-pixel-bounce"
       style={{ 
         left: `${playerPosition.x}px`, 
         top: `${playerPosition.y}px`,
-        zIndex: 10
+        zIndex: 10,
+        width: '32px',
+        height: '32px',
+        backgroundImage: 'url(/sprites/player.png)',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        imageRendering: 'pixelated'
       }}
     >
-      <div className="text-[8px] text-white font-bold text-center pt-1">
+      <div className="text-[8px] text-white font-bold text-center pt-1 bg-black bg-opacity-50">
         YOU
       </div>
     </div>
