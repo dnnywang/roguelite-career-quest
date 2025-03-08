@@ -19,7 +19,13 @@ const Index: React.FC = () => {
         ) : (
           <GameProvider>
             <div className="flex flex-col items-center">
-              <h1 className="text-3xl font-bold mb-6 text-game-blue">LinkedIn Roguelite</h1>
+              <h1 className="text-3xl font-bold mb-6 text-game-blue drop-shadow-lg"
+                  style={{ 
+                    textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)', 
+                    WebkitTextStroke: '1px #005E93'
+                  }}>
+                LinkedIn Roguelite
+              </h1>
               <p className="text-lg mb-8 max-w-lg text-center text-game-gray">
                 Welcome to the Networking Event! Talk to the NPCs to build your stats.
               </p>

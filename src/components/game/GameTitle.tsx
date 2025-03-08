@@ -9,7 +9,13 @@ type GameTitleProps = {
 const GameTitle: React.FC<GameTitleProps> = ({ onStartGame }) => {
   return (
     <div className="text-center">
-      <h1 className="text-5xl font-bold mb-6 text-game-blue">LinkedIn Roguelite</h1>
+      <h1 className="text-5xl font-bold mb-6 text-game-blue drop-shadow-lg" 
+          style={{ 
+            textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)', 
+            WebkitTextStroke: '1px #005E93'
+          }}>
+        LinkedIn Roguelite
+      </h1>
       
       <div className="flex justify-center mb-6">
         <img 
